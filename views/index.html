@@ -1,63 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <title>TwitchStats</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-  <script type="text/javascript" src="fillcell.js"></script>
-</head>
-<body>
+	<head>
+		<title>TwitchStats</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+	</head>
+	<body>
 
-<div class="container">
-  <h1 class="page-header">Greetings, stranger!</h1>
+		<div class="container">
+			<h1 class="page-header">Greetings, stranger!</h1>
 
-  <table class="table table-bordered" id="maint">
-  <thead>
-    <tr>      
-      <th>Channel</th>
-      <th>Viewers online</th>
-      <th>Title</th>
-    </tr>
-  </thead>
-  </table>
-</div>
+			<table class="table table-bordered" id="maint">
+				<thead>
+					<tr>      
+						<th>Channel</th>
+						<th>Viewers online</th>
+						<th>Title</th>
+					</tr>
+				</thead>
+				<!--tbody id="tbody">
+	    <div id="__tbody">
+	    </div>
+	    </tbody-->
+			</table>
+		</div>
 
-<script>
-	function handler1() {
-    alert('Спасибо!223232');
-  };
-        document.addEventListener( "DOMContentLoaded", get_json_data, false );
-        function get_json_data(){
-            var json_url = '../data.json';
-            xmlhttp = new XMLHttpRequest();
-		 xmlhttp.onload = function() { 
-                if (this.readyState == 4 && this.status == 200) {
+		<script>
+			function handler1() {
+				alert('Спасибо!223232');
+			};
+document.addEventListener( "DOMContentLoaded", get_json_data, false );
+var tbody = document.createElement('tbody');
+var i = 0;
+document.getElementById('maint').appendChild(tbody);
+let timerId = setInterval(get_json_data, 1000);
+function get_json_data(){
+	var json_url = '../data.json';
+	xmlhttp = new XMLHttpRequest();
+	xmlhttp.onload = function() { 
+		if (this.readyState == 4 && this.status == 200) {
 			var json_data = JSON.parse(this.responseText)
-                    append_json(json_data);
-                }
-            }
-            xmlhttp.open("GET", 'http://localhost:3100/data', true );
-            xmlhttp.send();
-        }
-        function append_json(json_data){
-		data = json_data.data
-            var table = document.getElementById('maint');
-		var tbody = document.createElement('tbody');
-
-            data.forEach(function(object) {
-                var tr = document.createElement('tr');
-                tr.innerHTML =
-		'<td>' + object.user_name +'</td>' +
-                '<td>' + object.viewer_count + '</td>' +
-		'<td>' + object.title + '</td>';
+			append_json(json_data);
+		}
+	}
+	xmlhttp.open("GET", 'http://s67311.vdi.mipt.ru:3100/data', true );//
+	xmlhttp.send();
+}
+function append_json(json_data){
+	data = json_data.data
+	var table = document.getElementById('maint');
+	table.removeChild(tbody);
+	tbody = document.createElement('tbody');
+	//var div = document.createElement('div');
+	//var tbody = document.getElementById('tbody');
+	data.forEach(function(object) {
+		var tr = document.createElement('tr');
+		tr.innerHTML =
+			'<td>' + object.user_name +'</td>' +
+			'<td>' + object.viewer_count + '</td>' +
+			'<td>' + object.title + '</td>';
+		//tbody.insertAdjacentHTML('afterBegin', tr);
+		//div.appendChild(tr);
 		tbody.appendChild(tr);
-            });
-		table.appendChild(tbody);
-        }
-    </script>
-</body>
+	});
+	tr = document.createElement('tr');
+	tr.innerHTML = '<td>' + i + '</td>';
+	i = i + 1;
+	tbody.appendChild(tr);
+	//tbody.appendChild(div);
+	table.appendChild(tbody);
+}
+		</script>
+	</body>
 </html>

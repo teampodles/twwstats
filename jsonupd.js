@@ -17,9 +17,9 @@ async function run(timems) {
 					if (req.status != 200) {
                			console.log(req.status);
         		} else {
-                		fs.writeFile('data.json', req.responseText, (err) => {})
+                		fs.writeFileSync('data.json', req.responseText, (err) => {})
                 		//console.log(req.responseText)
-				//console.log('BLYATTT')
+				//console.log('upd')
         			}
         		//req.abort()
 		}
@@ -31,5 +31,5 @@ async function run(timems) {
 }
 
 
-run(7000)
+run(5000)
 
