@@ -40,5 +40,5 @@ async function run(timems) {
 }
 
 
-run(5000)
+run(10000)
 
